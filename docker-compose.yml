@@ -1,0 +1,70 @@
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_DB: shopchat
+      POSTGRES_USER: shopchat_owner
+      POSTGRES_PASSWORD: shopchat_owner
+    ports:
+      - "127.0.0.1:${SHOPCHAT_POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U shopchat_owner -d shopchat"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  redis:
+    image: redis:7
+    ports:
+      - "127.0.0.1:${SHOPCHAT_REDIS_PORT:-6379}:6379"
+
+  migrate:
+    build: &backend-build
+      context: .
+      dockerfile: backend/Dockerfile
+    command: ["uv", "run", "--no-sync", "alembic", "upgrade", "head"]
+    env_file: backend/.env
+    environment: &service-env
+      DATABASE_URL: postgresql+asyncpg://shopchat_app:shopchat_app@postgres:5432/shopchat
+      DATABASE_OWNER_URL: postgresql+asyncpg://shopchat_owner:shopchat_owner@postgres:5432/shopchat
+      REDIS_URL: redis://redis:6379/0
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  seed:
+    image: pgvector/pgvector:pg16
+    command: ["/seed/restore.sh"]
+    volumes:
+      - ./db/seed:/seed:ro
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+
+  api:
+    build: *backend-build
+    env_file: backend/.env
+    environment: *service-env
+    ports:
+      - "${SHOPCHAT_API_PORT:-8000}:8000"
+    depends_on:
+      seed:
+        condition: service_completed_successfully
+      redis:
+        condition: service_started
+
+  worker:
+    build: *backend-build
+    command: ["uv", "run", "--no-sync", "arq", "shopchat.worker.main.WorkerSettings"]
+    env_file: backend/.env
+    environment: *service-env
+    depends_on:
+      seed:
+        condition: service_completed_successfully
+      redis:
+        condition: service_started
+
+volumes:
+  postgres-data:
