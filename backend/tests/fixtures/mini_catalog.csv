@@ -1,0 +1,7 @@
+URL handle,Title,Description,Vendor,Product category,Type,Tags,Status,SKU,Option1 name,Option1 value,Option2 name,Option2 value,Price,Compare-at price,Cost per item,Inventory quantity,Continue selling when out of stock,Product image URL,Image position,Water and sweat resistance (product.metafields.custom.water_resistance),Climate suitability (product.metafields.custom.climate),How to use (product.metafields.custom.how_to_use)
+day-cream,Day Cream,<p>A <strong>light</strong> daily cream.</p>,Acme,Beauty > Skin,Moisturizer,"Skincare, Daily",Active,DC-30,Size,30 ml,,,12.99,17.99,4.00,41,DENY,https://cdn.example.test/day-1.jpg,1,Not waterproof,"Cold & dry, Humid",Smooth a pea-sized amount over the face and neck each morning after cleansing your skin.
+day-cream,,,,,,,,DC-50,,50 ml,,,19.99,,6.00,5,DENY,https://cdn.example.test/day-2.jpg,2,,,
+beach-sunscreen,Beach Sunscreen,<p>Broad-spectrum protection for the sea.</p>,Acme,Beauty > Sun,Sunscreen,Sun,Active,BS-50,Size,50 ml,,,24.00,,8.00,10,DENY,https://cdn.example.test/beach.jpg,1,Waterproof & humidity-proof,Hot & humid,Apply generously
+sold-out-serum,Sold Out Serum,<p>A serum.</p>,Acme,Beauty > Skin,Serum,Skincare,Active,SS-30,Size,30 ml,,,30.00,,9.00,0,DENY,https://cdn.example.test/serum.jpg,1,,,
+backorder-balm,Backorder Balm,<p>A balm.</p>,Acme,Beauty > Skin,Balm,Skincare,Active,BB-30,Size,30 ml,,,15.00,,5.00,0,CONTINUE,https://cdn.example.test/balm.jpg,1,,,
+plain-soap,Plain Soap,,Acme,Beauty > Bath,Soap,,Active,PS-1,Title,Default Title,,,5.00,,1.00,3,DENY,,,,,
