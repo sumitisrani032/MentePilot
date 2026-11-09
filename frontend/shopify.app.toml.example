@@ -1,0 +1,27 @@
+# Copy to shopify.app.toml, then set client_id and replace the URLs with your own.
+name = "MentePilot"
+client_id = "your-shopify-client-id"
+application_url = "https://your-public-app-url.example/admin"
+embedded = true
+
+[access_scopes]
+scopes = "read_products,read_inventory,write_app_proxy"
+
+[auth]
+redirect_urls = ["https://your-public-app-url.example/auth/callback"]
+
+[webhooks]
+api_version = "2026-10"
+
+[[webhooks.subscriptions]]
+topics = ["products/create", "products/update", "products/delete", "inventory_levels/update", "app/uninstalled", "bulk_operations/finish"]
+uri = "https://your-public-app-url.example/webhooks/shopify"
+
+[[webhooks.subscriptions]]
+compliance_topics = ["customers/data_request", "customers/redact", "shop/redact"]
+uri = "https://your-public-app-url.example/webhooks/shopify"
+
+[app_proxy]
+url = "https://your-public-app-url.example/proxy"
+prefix = "apps"
+subpath = "shopchat"
