@@ -1,0 +1,22 @@
+<div
+  id="shopchat-root"
+  data-session-url="/apps/shopchat/session"
+  data-greeting="{{ block.settings.greeting | escape }}"
+></div>
+<script type="module" src="{{ 'chat.js' | asset_url }}"></script>
+
+{% schema %}
+{
+  "name": "Shop assistant",
+  "target": "body",
+  "stylesheet": "chat.css",
+  "settings": [
+    {
+      "type": "text",
+      "id": "greeting",
+      "label": "Greeting",
+      "default": "Hi! I'm here and ready to help. Tell me what you need, or pick a question below."
+    }
+  ]
+}
+{% endschema %}
