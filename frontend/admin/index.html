@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="shopify-api-key" content="__SHOPIFY_API_KEY__" />
+    <script src="https://cdn.shopify.com/shopifycloud/app-bridge.js"></script>
+    <title>Shop assistant</title>
+    <style>
+      body {
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 24px 16px;
+        font:
+          14px/1.5 system-ui,
+          sans-serif;
+        color: #1c1c1e;
+        background: #f6f6f7;
+      }
+      section {
+        margin-bottom: 16px;
+        padding: 16px;
+        background: #fff;
+        border-radius: 10px;
+      }
+      h1 {
+        font-size: 20px;
+      }
+      h2 {
+        margin-top: 0;
+        font-size: 15px;
+      }
+      label {
+        display: block;
+        padding: 4px 0;
+      }
+      .error {
+        color: #b3261e;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Shop assistant</h1>
+    <p id="message" role="status"></p>
+
+    <section>
+      <h2>Catalog</h2>
+      <p>Products imported: <strong id="products">-</strong></p>
+      <p>Searchable by the chatbot: <strong id="indexed">-</strong></p>
+      <p>Last sync: <strong id="sync">-</strong></p>
+      <p id="sync-error" class="error" hidden></p>
+      <button id="resync" type="button">Sync products now</button>
+    </section>
+
+    <section>
+      <h2>Features</h2>
+      <label><input id="image" type="checkbox" /> Photo upload</label>
+      <label><input id="skin_analysis" type="checkbox" /> Skin analysis</label>
+      <label><input id="voice" type="checkbox" /> Voice</label>
+      <p id="voice-note" hidden>Voice is not available on this app yet.</p>
+    </section>
+
+    <section>
+      <h2>Usage</h2>
+      <p>Chats: <strong id="chats">0</strong></p>
+      <p>Photos read: <strong id="images">0</strong></p>
+    </section>
+
+    <script type="module" src="/admin/admin.js"></script>
+  </body>
+</html>
