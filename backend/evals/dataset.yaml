@@ -1,0 +1,210 @@
+# Realistic customer questions, scored against the merchant's own attribute columns.
+# A pick is relevant if it matches any relevant_if entry and no forbid_if entry.
+
+# --- Occasion and situation ---
+- query: I'm going to the beach, suggest me some products
+  relevant_if:
+    - {types: [Sunscreen, After-Sun Care]}
+    - {attributes: {Occasions and activities: [Beach]}}
+- query: what should I pack for a beach holiday in Goa
+  relevant_if:
+    - {types: [Sunscreen, After-Sun Care]}
+    - {attributes: {Occasions and activities: [Beach, Vacation]}}
+- query: I got sunburned yesterday, need something soothing
+  relevant_if:
+    - {types: [After-Sun Care]}
+    - {attributes: {Occasions and activities: [After sun]}}
+- query: makeup that will last through a long wedding
+  relevant_if:
+    - {attributes: {Occasions and activities: [Weddings]}}
+- query: something for date night
+  relevant_if:
+    - {attributes: {Occasions and activities: [Date night]}}
+- query: I have a long day at the office and want to stay fresh
+  relevant_if:
+    - {attributes: {Occasions and activities: [Office, Long workdays, Midday refresh]}}
+- query: my skin feels awful after a long flight
+  relevant_if:
+    - {attributes: {Occasions and activities: [Flights, Travel, Winter travel]}}
+- query: something quick to use after the gym
+  relevant_if:
+    - {attributes: {Occasions and activities: [Post-workout, After a sweaty commute]}}
+- query: party tonight, want to look glam
+  relevant_if:
+    - {attributes: {Occasions and activities: [Party, Date night, Evening]}}
+- query: self care evening at home, what should I treat myself to
+  relevant_if:
+    - {attributes: {Occasions and activities: [Self-care night, Night routine]}}
+- query: my eyes look puffy this morning
+  relevant_if:
+    - {types: [Eye Cream, Under-Eye Patches]}
+    - {attributes: {Occasions and activities: [Morning de-puff, After a late night]}}
+- query: something to put on before my makeup so it stays smooth
+  relevant_if:
+    - {types: [Face Primer]}
+    - {attributes: {Occasions and activities: [Before makeup, Under makeup]}}
+
+# --- Climate and weather ---
+- query: it's so humid here and everything feels greasy on my face
+  relevant_if:
+    - {attributes: {Climate suitability: [Hot & humid, Tropical]}}
+  forbid_if:
+    - {attributes: {Texture: [Rich cream, Balm]}}
+- query: the monsoon is starting, what skincare do I need
+  relevant_if:
+    - {attributes: {Climate suitability: [Rainy / monsoon]}}
+    - {attributes: {Best season: [Monsoon]}}
+- query: very cold and dry winter, my face is cracking
+  relevant_if:
+    - {attributes: {Climate suitability: [Cold & dry, Cold wind]}}
+- query: going skiing next week, need protection for the snow
+  relevant_if:
+    - {attributes: {Climate suitability: [Snow & high altitude]}}
+    - {types: [Sunscreen]}
+- query: strong sun all day where I live
+  relevant_if:
+    - {types: [Sunscreen]}
+    - {attributes: {Climate suitability: ["High UV"]}}
+- query: I live in a polluted city and my skin looks tired
+  relevant_if:
+    - {attributes: {Climate suitability: [Polluted city air]}}
+    - {attributes: {Skin concerns: [Pollution stress, Dullness]}}
+- query: I sit in air conditioning all day and my skin dries out
+  relevant_if:
+    - {attributes: {Climate suitability: [Air-conditioned indoors]}}
+- query: desert heat, very dry air
+  relevant_if:
+    - {attributes: {Climate suitability: [Hot & dry]}}
+- query: summer essentials please
+  relevant_if:
+    - {attributes: {Best season: [Summer]}}
+
+# --- Skin need ---
+- query: moisturizer for oily skin
+  relevant_if:
+    - {types: [Face Moisturizer], attributes: {Skin type: [Oily, All skin types]}}
+- query: oil moisturizer
+  relevant_if:
+    - {types: [Face Oil, Body Oil, Face Moisturizer]}
+- query: I keep getting pimples on my chin
+  relevant_if:
+    - {types: [Acne Treatment]}
+    - {attributes: {Skin type: [Acne-prone]}}
+    - {attributes: {Skin concerns: [Acne, Clogged pores, Blackheads]}}
+- query: my skin gets red and irritated very easily
+  relevant_if:
+    - {attributes: {Skin type: [Sensitive]}}
+    - {attributes: {Skin concerns: [Redness, Sensitivity, Irritation]}}
+- query: starting to see fine lines around my eyes
+  relevant_if:
+    - {types: [Eye Cream]}
+    - {attributes: {Skin concerns: [Fine lines]}}
+- query: dark marks left over from old acne
+  relevant_if:
+    - {attributes: {Skin concerns: [Post-acne marks, Uneven skin tone]}}
+- query: my face looks dull and tired
+  relevant_if:
+    - {attributes: {Skin concerns: [Dullness]}}
+- query: huge pores on my nose
+  relevant_if:
+    - {attributes: {Skin concerns: [Large pores, Clogged pores, Blackheads]}}
+- query: very dry flaky skin
+  relevant_if:
+    - {attributes: {Skin concerns: [Dryness, Flaking, Dehydration]}}
+    - {attributes: {Skin type: [Very dry, Dry]}}
+- query: my lips are chapped
+  relevant_if:
+    - {types: [Lip Care, Lip Oil]}
+    - {attributes: {Skin concerns: [Dry lips]}}
+- query: I need something fragrance free, perfume gives me headaches
+  relevant_if:
+    - {attributes: {Scent: [Fragrance-free, Unscented]}}
+  forbid_if:
+    - {types: [Eau de Parfum, Eau de Toilette, Perfume Oil, Body Mist]}
+
+# --- Hair ---
+- query: my hair is super frizzy in the rain
+  relevant_if:
+    - {attributes: {Hair concerns: [Frizz]}}
+- query: my hair is damaged from swimming in the sea and pools
+  relevant_if:
+    - {attributes: {Hair concerns: [Salt-water, Dryness, Breakage]}}
+- query: oily scalp and flat hair
+  relevant_if:
+    - {attributes: {Hair concerns: [Oily scalp, Limp hair, Flat hair, Product buildup]}}
+- query: split ends keep coming back
+  relevant_if:
+    - {attributes: {Hair concerns: [Split ends, Breakage]}}
+- query: stuff for my beard
+  relevant_if:
+    - {types: [Beard Oil, Beard Balm]}
+
+# --- Direct product and price ---
+- query: red lipstick
+  relevant_if:
+    - {types: [Lipstick, Liquid Lipstick]}
+- query: matte foundation
+  relevant_if:
+    - {types: [Foundation], attributes: {Finish: [Matte]}}
+- query: a perfume for her birthday
+  relevant_if:
+    - {types: [Eau de Parfum, Eau de Toilette, Perfume Oil]}
+- query: nail polish
+  relevant_if:
+    - {types: [Nail Polish]}
+- query: mascara under 15 dollars
+  relevant_if:
+    - {types: [Mascara]}
+  max_price: 15
+- query: a cheap cleanser, my budget is 10
+  relevant_if:
+    - {types: [Facial Cleanser]}
+  max_price: 10
+- query: serum for dull skin, nothing over 25
+  relevant_if:
+    - {types: [Face Serum]}
+  max_price: 25
+
+# --- Vague ---
+- query: something nice for my skin
+  relevant_if:
+    - {attributes: {Skin type: [All skin types, Normal, Combination, Dry, Oily, Sensitive]}}
+- query: gift for my mum who loves pampering
+  relevant_if:
+    - {types: [Face Mask, Bath Soak, Hand Cream, Body Moisturizer, Eau de Parfum]}
+    - {attributes: {Occasions and activities: [Self-care night]}}
+- query: simple routine for a beginner
+  relevant_if:
+    - {types: [Facial Cleanser, Face Moisturizer, Sunscreen]}
+
+# --- Traps: the catalog says the opposite of the obvious keyword match ---
+- query: waterproof makeup for a pool party
+  trap: true
+  relevant_if:
+    - {attributes: {Water and sweat resistance: ["Waterproof & humidity-proof", "Water-resistant ("]}}
+  forbid_if:
+    - {attributes: {Water and sweat resistance: [Not waterproof, Not water-resistant, Transfer-resistant]}}
+- query: sunscreen that stays on when I swim
+  trap: true
+  relevant_if:
+    - {types: [Sunscreen], attributes: {Water and sweat resistance: ["Water-resistant ("]}}
+  forbid_if:
+    - {attributes: {Water and sweat resistance: [Not water-resistant, Not waterproof]}}
+- query: mascara that won't run when I cry at the wedding
+  trap: true
+  relevant_if:
+    - {types: [Mascara], attributes: {Water and sweat resistance: ["Waterproof & humidity-proof", "Water-resistant ("]}}
+  forbid_if:
+    - {attributes: {Water and sweat resistance: [Not waterproof, Not water-resistant]}}
+- query: I need real sun protection for a full day outdoors, not just makeup with a bit of SPF
+  trap: true
+  relevant_if:
+    - {types: [Sunscreen]}
+  forbid_if:
+    - {attributes: {Sun protection: [still wear a dedicated sunscreen]}}
+- query: sweat proof foundation for summer
+  trap: true
+  relevant_if:
+    - {types: [Foundation, BB & CC Cream], attributes: {Water and sweat resistance: [Sweat-resistant, "Waterproof & humidity-proof", "Water-resistant ("]}}
+  forbid_if:
+    - {attributes: {Water and sweat resistance: [Not waterproof, Not water-resistant]}}
