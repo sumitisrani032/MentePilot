@@ -18,6 +18,10 @@ class Settings(BaseSettings):
     llm_calls_enabled: bool = False
     voice_enabled: bool = False
 
+    # Local development only: serves a demo page at /dev that chats without Shopify.
+    dev_mode: bool = False
+    dev_shop_domain: str = "cosmo-genie.myshopify.com"
+
     openai_api_key: SecretStr | None = None
     openai_model_fast: str | None = None
     openai_model_smart: str | None = None

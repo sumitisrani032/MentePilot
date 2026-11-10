@@ -10,6 +10,8 @@ Settings are read from the environment or `backend/.env`. Never commit that file
 | `APP_URL` | Yes | Public HTTPS URL of the backend |
 | `LLM_CALLS_ENABLED` | No | Hard switch for all OpenAI calls; defaults to `false` |
 | `VOICE_ENABLED` | No | Global voice switch; defaults to `false` |
+| `DEV_MODE` | No | Local development only: serves the demo page at `/dev`; defaults to `false` |
+| `DEV_SHOP_DOMAIN` | No | Store the `/dev` page chats with; defaults to `cosmo-genie.myshopify.com` |
 | `OPENAI_API_KEY` | For AI features | OpenAI credential |
 | `OPENAI_MODEL_FAST` | For AI features | Routing and planning, for example `gpt-4o-mini` |
 | `OPENAI_MODEL_SMART` | For AI features | Choosing products and reading images |

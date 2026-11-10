@@ -26,3 +26,13 @@ def test_voice_is_off_by_default(monkeypatch: pytest.MonkeyPatch) -> None:
 def test_secrets_are_hidden_when_printed(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.setenv("OPENAI_API_KEY", "sk-should-not-appear")
     assert "sk-should-not-appear" not in repr(_settings())
+
+
+def test_dev_mode_is_off_by_default(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.delenv("DEV_MODE", raising=False)
+    assert _settings().dev_mode is False
+
+
+def test_dev_mode_uses_the_seeded_store_by_default(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.delenv("DEV_SHOP_DOMAIN", raising=False)
+    assert _settings().dev_shop_domain == "cosmo-genie.myshopify.com"
