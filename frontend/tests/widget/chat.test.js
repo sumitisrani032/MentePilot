@@ -346,3 +346,23 @@ test("hides the widget on 403", () => {
 test("explains an oversized upload", () => {
   assert.match(errorText(413), /too large/);
 });
+
+test("has no maximize button unless the page allows it", () => {
+  makeWidget();
+  assert.equal(root.querySelector(".shopchat-maximize"), null);
+});
+
+test("maximize fills the window and restore brings it back", () => {
+  widget = createWidget(root, { greeting: "Hello", maximizable: true });
+  const button = root.querySelector(".shopchat-maximize");
+
+  button.click();
+  assert.ok(widget.panel.classList.contains("shopchat-maximized"));
+  assert.equal(button.getAttribute("aria-pressed"), "true");
+  assert.equal(button.getAttribute("aria-label"), "Restore chat size");
+
+  button.click();
+  assert.ok(!widget.panel.classList.contains("shopchat-maximized"));
+  assert.equal(button.getAttribute("aria-pressed"), "false");
+  assert.equal(button.getAttribute("aria-label"), "Maximize chat");
+});

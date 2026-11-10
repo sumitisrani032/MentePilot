@@ -60,6 +60,8 @@ const ICONS = {
   next: '<path d="m9 5 7 7-7 7"/>',
   info: '<circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/>',
   copy: '<rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/>',
+  maximize: '<path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/>',
+  restore: '<path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5"/>',
 };
 
 function icon(name) {
@@ -311,7 +313,23 @@ function buildSection(section) {
   return { node, refresh };
 }
 
-export function createWidget(root, { greeting }) {
+/** A header button that grows the panel to fill the window, and back. */
+function maximizeButton(panel) {
+  const button = iconButton("shopchat-maximize", "maximize", "Maximize chat");
+  button.setAttribute("aria-pressed", "false");
+  button.addEventListener("click", () => {
+    const maximized = panel.classList.toggle("shopchat-maximized");
+    button.setAttribute("aria-pressed", String(maximized));
+    button.setAttribute(
+      "aria-label",
+      maximized ? "Restore chat size" : "Maximize chat",
+    );
+    button.replaceChildren(icon(maximized ? "restore" : "maximize"));
+  });
+  return button;
+}
+
+export function createWidget(root, { greeting, maximizable = false }) {
   root.className = "shopchat";
 
   const toggle = element("button", "shopchat-toggle");
@@ -328,7 +346,10 @@ export function createWidget(root, { greeting }) {
   brand.append(icon("sparkle"), element("span", "", "Shop assistant"));
   const restart = iconButton("shopchat-restart", "restart", "Start a new chat");
   const close = iconButton("shopchat-close", "close", "Close");
-  header.append(brand, restart, close);
+  header.append(brand, restart);
+  // Only pages that ask for it (the local development page) get this button.
+  if (maximizable) header.append(maximizeButton(panel));
+  header.append(close);
 
   const log = element("div", "shopchat-log");
   log.setAttribute("role", "log");
@@ -799,7 +820,10 @@ function attachMicrophone(widget, client) {
 function boot() {
   const root = document.getElementById("shopchat-root");
   if (!root) return;
-  const widget = createWidget(root, { greeting: root.dataset.greeting });
+  const widget = createWidget(root, {
+    greeting: root.dataset.greeting,
+    maximizable: "maximizable" in root.dataset,
+  });
   const client = connect(widget, root.dataset.sessionUrl);
   widget.restore();
   client.openSession().catch(() => {});

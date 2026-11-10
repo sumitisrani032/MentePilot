@@ -84,6 +84,20 @@
   box-shadow: 0 18px 60px rgb(0 0 0 / 32%);
 }
 
+/* Small screens already show the panel full screen, so maximize only acts above them. */
+@media (min-width: 521px) {
+  .shopchat-panel.shopchat-maximized {
+    width: calc(100vw - 40px);
+    height: calc(100vh - 40px);
+  }
+}
+
+@media (max-width: 520px) {
+  .shopchat .shopchat-maximize {
+    display: none;
+  }
+}
+
 .shopchat-header {
   display: flex;
   gap: 4px;
