@@ -97,3 +97,20 @@ async def test_dev_session_explains_a_missing_store(client, two_shops: TwoShops)
 
     assert response.status_code == 403
     assert "DEV_SHOP_DOMAIN" in response.json()["detail"]
+
+
+async def test_dev_routes_refuse_requests_forwarded_from_the_internet(
+    client, dev_mode: None
+) -> None:
+    # A tunnel such as ngrok adds this header; the dev page must stay local.
+    response = await client.get("/dev", headers={"X-Forwarded-For": "8.8.8.8"})
+    assert response.status_code == 404
+
+
+@pytest.mark.parametrize(
+    ("host", "allowed"), [("127.0.0.1", True), ("172.18.0.1", True), ("8.8.8.8", False)]
+)
+def test_only_local_and_private_clients_reach_dev_routes(host: str, allowed: bool) -> None:
+    from shopchat.api.dev import is_local_client
+
+    assert is_local_client(host) is allowed

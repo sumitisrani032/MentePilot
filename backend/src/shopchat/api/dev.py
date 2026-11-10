@@ -3,6 +3,7 @@
 Every route here answers 404 unless DEV_MODE is true, so production never exposes them.
 """
 
+from ipaddress import ip_address
 from pathlib import Path
 from typing import Annotated, Any
 from urllib.parse import urlsplit
@@ -22,8 +23,26 @@ _WIDGET_FILES = {"chat.js": "text/javascript", "chat.css": "text/css"}
 _NO_CACHE = {"Cache-Control": "no-store"}
 
 
-def require_dev_mode(settings: Annotated[Settings, Depends(get_settings)]) -> None:
-    if not settings.dev_mode:
+def is_local_client(host: str) -> bool:
+    """This machine or a private network such as Docker's; never a public address."""
+    try:
+        address = ip_address(host)
+    except ValueError:
+        return False
+    return address.is_loopback or address.is_private
+
+
+def require_dev_mode(
+    request: Request, settings: Annotated[Settings, Depends(get_settings)]
+) -> None:
+    """Hide these routes unless DEV_MODE is on and the browser is local.
+
+    A tunnel such as ngrok forwards public visitors with X-Forwarded-For, so those are refused
+    too: otherwise anyone could chat through this page and spend the OpenAI budget.
+    """
+    host = request.client.host if request.client else ""
+    forwarded = "x-forwarded-for" in request.headers
+    if not settings.dev_mode or forwarded or not is_local_client(host):
         raise HTTPException(status.HTTP_404_NOT_FOUND, "Not Found")
 
 
