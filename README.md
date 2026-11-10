@@ -4,6 +4,9 @@ A public, multi-store Shopify app that adds a shopping assistant to any storefro
 describe what they need in their own words, such as a trip to the beach, oily skin, a birthday or
 a budget. The assistant answers only with real products from that store.
 
+**New here?** Follow [docs/local-setup.md](docs/local-setup.md). It covers every command, step by
+step, to run the chatbot on your own computer with Docker and no Shopify store.
+
 ## How a message is answered
 
 ```mermaid
@@ -108,8 +111,10 @@ The graph, retrieval, image and error paths are in [docs/request-flow.md](docs/r
 │   ├── tests/widget/             Widget tests
 │   └── shopify.app.toml.example  Shopify app configuration template
 ├── db/seed/                 Demo catalog dump with embeddings
+├── frontend/dev/            Local page for trying the chat without Shopify
 ├── docs/                    Documentation
-└── docker-compose.yml
+├── docker-compose.yml       All services
+└── docker-compose.dev.yml   Development only: /dev page and live reload
 ```
 
 ## Quick start with Docker
@@ -133,7 +138,9 @@ docker compose run --rm -e LLM_CALLS_ENABLED=true api \
 
 ## Local development
 
-You need Python 3.12, [uv](https://docs.astral.sh/uv/) and Node.js 20 or later.
+The full guide, with Docker installation, dumps, restores and troubleshooting, is
+[docs/local-setup.md](docs/local-setup.md). To run the backend outside Docker, you need Python 3.12,
+[uv](https://docs.astral.sh/uv/) and Node.js 20 or later.
 
 ```bash
 docker compose up -d postgres redis
@@ -142,7 +149,7 @@ cd backend
 cp .env.example .env
 uv sync
 uv run alembic upgrade head
-DATABASE_HOST=localhost ../db/seed/restore.sh
+(cd .. && docker compose run --rm --no-deps seed)   # Load the seed into the empty database
 uv run uvicorn shopchat.api.app:app --reload
 uv run arq shopchat.worker.main.WorkerSettings   # In a second terminal
 
@@ -151,29 +158,37 @@ npm ci
 npm test
 ```
 
-`restore.sh` uses `pg_restore`, so your Postgres client tools must be version 16 or later.
-
 ## Try the chatbot without Shopify
 
 Development mode serves a placeholder shop page with the real chat widget on it. The widget talks
 to your local database (the seeded `cosmo-genie.myshopify.com` catalog by default), and its header
 has a maximize button that the storefront does not show.
 
+With Docker, one command starts everything in development mode:
+
 ```bash
-cd backend
-DEV_MODE=true LLM_CALLS_ENABLED=true uv run uvicorn shopchat.api.app:app --reload
+docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build
 ```
 
-Open <http://localhost:8000/dev>. `WIDGET_TOKEN_SECRET` and `OPENAI_API_KEY` must be set in
-`backend/.env`, and every question is a paid OpenAI call. Without `LLM_CALLS_ENABLED=true` the page
-still opens, but the assistant cannot answer.
+Outside Docker:
+
+```bash
+cd backend
+DEV_MODE=true uv run uvicorn shopchat.api.app:app --reload
+```
+
+Open <http://localhost:8000/dev>. `WIDGET_TOKEN_SECRET` must be set in `backend/.env`. Both commands
+make no OpenAI calls, so the chat opens but cannot answer. To get answers, put
+`LLM_CALLS_ENABLED=true` in front of either command and set `OPENAI_API_KEY`; every question is
+then a paid call.
 
 - `DEV_SHOP_DOMAIN` picks another indexed store.
 - The widget files load straight from `frontend/extensions/chat-widget/assets`, so edits show on
-  refresh with no Shopify deploy.
-- With Docker, put `DEV_MODE=true` in `backend/.env` and restart the `api` service.
+  refresh with no Shopify deploy. In Docker, Python edits also restart the server.
 - With `DEV_MODE` off, every `/dev` address answers 404. With it on, they still answer only this
   machine or a private network: requests through a tunnel such as ngrok get 404.
+
+Every step is in [docs/local-setup.md](docs/local-setup.md).
 
 ## Connect a real store
 
@@ -209,6 +224,7 @@ The 80% target has not been reached yet. Every question and answer is in
 
 | Document | Contents |
 | --- | --- |
+| [Local setup](docs/local-setup.md) | Every command, step by step, to run it locally with Docker and no Shopify store |
 | [Architecture](docs/architecture.md) | Components, design decisions, technology |
 | [Request flow](docs/request-flow.md) | The agent graph, retrieval, text and image sequences |
 | [Indexing](docs/indexing.md) | Catalog pipeline, first install, webhooks, facts |

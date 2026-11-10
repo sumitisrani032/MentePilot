@@ -1,5 +1,7 @@
 # Configuration
 
+To run the project on your own computer, follow [Local setup](local-setup.md).
+
 Settings are read from the environment or `backend/.env`. Never commit that file.
 
 | Variable | Required | Purpose |

@@ -1,5 +1,7 @@
 # Evaluation
 
+To run the project on your own computer, follow [Local setup](local-setup.md).
+
 52 realistic customer questions check the whole agent flow against a real catalog. The cases are in
 `backend/evals/dataset.yaml`. The latest answers to each one are in
 [evaluation-results.md](evaluation-results.md).

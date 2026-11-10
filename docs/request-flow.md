@@ -1,5 +1,7 @@
 # Request flow
 
+To run the project on your own computer, follow [Local setup](local-setup.md).
+
 What happens from the moment a customer presses send. The README has the end-to-end sequence
 diagram. This page covers each stage in more detail.
 

@@ -1,5 +1,7 @@
 # Database
 
+To run the project on your own computer, follow [Local setup](local-setup.md).
+
 Postgres 16 with the pgvector extension. Migrations are in `backend/migrations`.
 
 ```mermaid

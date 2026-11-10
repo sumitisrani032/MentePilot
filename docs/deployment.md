@@ -1,5 +1,7 @@
 # Deployment
 
+To run the project on your own computer, follow [Local setup](local-setup.md).
+
 The whole stack runs from `docker-compose.yml`.
 
 ```mermaid

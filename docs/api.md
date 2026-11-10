@@ -1,5 +1,7 @@
 # API reference
 
+To run the project on your own computer, follow [Local setup](local-setup.md).
+
 FastAPI also serves interactive documentation at `/docs` and the schema at `/openapi.json`.
 
 ## Authentication

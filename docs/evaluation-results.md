@@ -1,5 +1,7 @@
 # 52-question evaluation results
 
+To run the project on your own computer, follow [Local setup](local-setup.md).
+
 Store: `cosmo-genie.myshopify.com`. Model: `gpt-4o-mini`. A product counts as relevant when the merchant's own catalog attributes match the case in `backend/evals/dataset.yaml`.
 
 | Measure | Result |

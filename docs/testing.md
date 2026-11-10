@@ -1,5 +1,7 @@
 # Testing
 
+To run the project on your own computer, follow [Local setup](local-setup.md).
+
 No test calls OpenAI. The suite forces `LLM_CALLS_ENABLED=false` and uses fake models.
 
 ## Backend

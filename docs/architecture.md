@@ -1,5 +1,7 @@
 # Architecture
 
+To run the project on your own computer, follow [Local setup](local-setup.md).
+
 MentePilot is a public, multi-store Shopify app. A shopper describes a need in plain language and
 the assistant answers only with products from that store's own catalog.
 

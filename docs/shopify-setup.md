@@ -1,5 +1,7 @@
 # Connecting to Shopify
 
+To run the project on your own computer, follow [Local setup](local-setup.md).
+
 You need a Shopify Partner account, a development store, an app in the Partner Dashboard, and a
 public HTTPS URL for the backend.
 

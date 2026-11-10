@@ -1,5 +1,7 @@
 # Seed data
 
+To run the project on your own computer, follow [Local setup](local-setup.md).
+
 `db/seed/shopchat_seed.dump` lets you start with a fully indexed catalog, without paying to embed
 it again.
 

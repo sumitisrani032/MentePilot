@@ -1,5 +1,7 @@
 # Catalog indexing
 
+To run the project on your own computer, follow [Local setup](local-setup.md).
+
 Every product, from any source, goes through `run_catalog_pipeline` in
 `backend/src/shopchat/catalog/pipeline.py`.
 

@@ -1,5 +1,7 @@
 # Security and privacy
 
+To run the project on your own computer, follow [Local setup](local-setup.md).
+
 | Area | Protection |
 | --- | --- |
 | Store isolation | Postgres row-level security on every store table |
