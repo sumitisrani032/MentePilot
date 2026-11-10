@@ -1,0 +1,27 @@
+# Development only. Adds the /dev page and live code reload to docker-compose.yml:
+#
+#   docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build
+#
+# OpenAI calls stay off unless you start it with LLM_CALLS_ENABLED=true in front of that command.
+services:
+  api:
+    environment:
+      DEV_MODE: "true"
+      LLM_CALLS_ENABLED: ${LLM_CALLS_ENABLED:-false}
+    command:
+      - uv
+      - run
+      - --no-sync
+      - uvicorn
+      - shopchat.api.app:app
+      - --host
+      - 0.0.0.0
+      - --port
+      - "8000"
+      - --reload
+      - --reload-dir
+      - src
+    volumes:
+      - ./backend/src:/app/backend/src:ro
+      - ./frontend/dev:/app/frontend/dev:ro
+      - ./frontend/extensions/chat-widget/assets:/app/frontend/extensions/chat-widget/assets:ro
