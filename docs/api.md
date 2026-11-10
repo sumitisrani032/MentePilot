@@ -131,3 +131,21 @@ Form field `text` (1 to 1000 characters). Returns audio.
 | Method and path | Purpose |
 | --- | --- |
 | `GET /healthz` | Liveness: `{"status": "ok"}` |
+
+## Development only
+
+These routes exist only with `DEV_MODE=true`, and only for a browser on this machine or a private
+network. Otherwise, and for any request carrying `X-Forwarded-For` (for example through ngrok), they
+answer 404.
+
+| Route | Purpose |
+| --- | --- |
+| `GET /dev` | Placeholder shop page with the widget, which has a maximize button |
+| `GET /dev/widget/chat.js`, `GET /dev/widget/chat.css` | Widget files, uncached |
+| `POST /dev/session?origin=<origin>` | Same reply as `/proxy/session`, for `DEV_SHOP_DOMAIN`, with no Shopify signature; `http` origins are allowed and `api_base` is this server |
+
+| Status | Meaning |
+| --- | --- |
+| 403 | `DEV_SHOP_DOMAIN` is not an active store in the database |
+| 404 | `DEV_MODE` is off, or the request is not local |
+| 422 | Invalid origin |

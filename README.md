@@ -153,6 +153,28 @@ npm test
 
 `restore.sh` uses `pg_restore`, so your Postgres client tools must be version 16 or later.
 
+## Try the chatbot without Shopify
+
+Development mode serves a placeholder shop page with the real chat widget on it. The widget talks
+to your local database (the seeded `cosmo-genie.myshopify.com` catalog by default), and its header
+has a maximize button that the storefront does not show.
+
+```bash
+cd backend
+DEV_MODE=true LLM_CALLS_ENABLED=true uv run uvicorn shopchat.api.app:app --reload
+```
+
+Open <http://localhost:8000/dev>. `WIDGET_TOKEN_SECRET` and `OPENAI_API_KEY` must be set in
+`backend/.env`, and every question is a paid OpenAI call. Without `LLM_CALLS_ENABLED=true` the page
+still opens, but the assistant cannot answer.
+
+- `DEV_SHOP_DOMAIN` picks another indexed store.
+- The widget files load straight from `frontend/extensions/chat-widget/assets`, so edits show on
+  refresh with no Shopify deploy.
+- With Docker, put `DEV_MODE=true` in `backend/.env` and restart the `api` service.
+- With `DEV_MODE` off, every `/dev` address answers 404. With it on, they still answer only this
+  machine or a private network: requests through a tunnel such as ngrok get 404.
+
 ## Connect a real store
 
 Follow [docs/shopify-setup.md](docs/shopify-setup.md).
