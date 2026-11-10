@@ -4,8 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "lint": "eslint extensions admin tests/widget && prettier --check extensions admin tests/widget",
-    "format": "prettier --write extensions admin tests/widget",
+    "lint": "eslint extensions admin tests/widget && prettier --check extensions admin dev tests/widget",
+    "format": "prettier --write extensions admin dev tests/widget",
     "test": "node --test \"tests/widget/*.test.js\""
   },
   "devDependencies": {

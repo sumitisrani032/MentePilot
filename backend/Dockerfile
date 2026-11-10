@@ -1,4 +1,4 @@
-# Build from the repository root: the API also serves frontend/admin.
+# Build from the repository root: the API also serves frontend/admin (and frontend/dev in DEV_MODE).
 FROM python:3.12-slim
 
 ENV UV_LINK_MODE=copy PYTHONUNBUFFERED=1
@@ -11,6 +11,9 @@ COPY backend/migrations ./migrations
 COPY backend/alembic.ini ./
 COPY backend/scripts ./scripts
 COPY frontend/admin /app/frontend/admin
+# Used only when DEV_MODE=true.
+COPY frontend/dev /app/frontend/dev
+COPY frontend/extensions/chat-widget/assets /app/frontend/extensions/chat-widget/assets
 RUN uv sync --frozen --no-dev
 
 RUN useradd --create-home appuser

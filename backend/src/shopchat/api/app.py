@@ -9,7 +9,7 @@ from fastapi.exceptions import RequestValidationError
 from starlette.exceptions import HTTPException
 from starlette.formparsers import MultiPartParser
 
-from shopchat.api import admin, auth, chat, proxy, voice, webhooks
+from shopchat.api import admin, auth, chat, dev, proxy, voice, webhooks
 from shopchat.api.limits import MAX_WIDGET_BODY_BYTES, WidgetBodyLimit
 
 # Uploads must stay in memory: photos and audio are never written to disk.
@@ -23,6 +23,7 @@ app.include_router(proxy.router)
 app.include_router(chat.router)
 app.include_router(voice.router)
 app.include_router(webhooks.router)
+app.include_router(dev.router)
 
 
 def _readable_by_widget(request: Request, response: Response) -> Response:
