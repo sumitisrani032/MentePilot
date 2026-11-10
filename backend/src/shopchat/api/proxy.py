@@ -11,6 +11,7 @@ from shopchat.catalog.repository import load_profile
 from shopchat.chat.features import effective_features
 from shopchat.chat.suggestions import suggestions_for
 from shopchat.config import Settings, get_settings
+from shopchat.db.models import Shop
 from shopchat.shopify.signatures import verify_proxy_signature
 
 router = APIRouter()
@@ -35,10 +36,17 @@ async def create_session(
     shop = await load_active_shop(query.get("shop", ""))
     if shop is None:
         raise HTTPException(status.HTTP_403_FORBIDDEN, "Store is not active")
+    return await build_session(shop, origin, settings.app_url, settings)
+
+
+async def build_session(
+    shop: Shop, origin: str, api_base: str, settings: Settings
+) -> dict[str, Any]:
+    """What the widget needs to start: a token for this store and origin, and its options."""
     profile = await load_profile(shop.id)
     return {
         "token": issue_widget_token(shop.id, shop.domain, origin),
-        "api_base": settings.app_url,
+        "api_base": api_base,
         "skin_consent_text": SKIN_CONSENT_TEXT,
         "features": effective_features(settings, shop.features, profile),
         "suggestions": suggestions_for(profile),
